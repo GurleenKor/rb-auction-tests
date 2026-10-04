@@ -1,0 +1,23 @@
+{
+  "name": "rb-auction-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright + TypeScript e2e and API test framework for rbauction.com locations",
+  "scripts": {
+    "install:browsers": "playwright install chromium",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:e2e": "playwright test --project=e2e",
+    "test:api": "playwright test --project=api",
+    "test:unit": "playwright test --project=unit",
+    "test:headed": "playwright test --project=e2e --headed",
+    "test:negative": "playwright test --grep @negative",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.0"
+  }
+}
