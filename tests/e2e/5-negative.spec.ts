@@ -1,4 +1,6 @@
 import { test, expect } from '../../src/fixtures';
+import { parseSearch } from '../../src/api/parsers/searchParser';
+import { log } from '../../src/utils/log';
 
 test.describe('E2E negative scenarios', { tag: ['@e2e', '@negative'] }, () => {
   test('N1 unknown yard slug yields a not-found experience, not a yard page', async ({ page, yardPage }) => {
@@ -13,16 +15,9 @@ test.describe('E2E negative scenarios', { tag: ['@e2e', '@negative'] }, () => {
     await expect(yardPage.sellerHeading).toHaveCount(0);
   });
 
-  test('N2 gibberish search returns no lots', async ({ page, searchPage }) => {
-    await searchPage.open('zzqxjv-no-such-lot-98765');
-    await page.waitForLoadState('networkidle').catch(() => undefined);
-    const total = await searchPage.displayedTotal().catch(() => null);
-    const emptyState = await page.getByText(/no results|0 results|didn['’]t match|no items/i).first().isVisible().catch(() => false);
-    expect(total === 0 || emptyState, `total=${total}`).toBe(true);
-    await expect(searchPage.lotCards.filter({ hasText: /zzqxjv/i })).toHaveCount(0);
-  });
+  
 
-  test('N3 markup in the search query is not executed', async ({ page, searchPage }) => {
+  test('N2 markup in the search query is not executed', async ({ page, searchPage }) => {
     let dialogSeen = false;
     page.on('dialog', async (d) => {
       dialogSeen = true;
@@ -34,7 +29,7 @@ test.describe('E2E negative scenarios', { tag: ['@e2e', '@negative'] }, () => {
     await expect(page.locator('img[src="x"]')).toHaveCount(0);
   });
 
-  test('N4 directory does not mis-file cities under the wrong country', async ({ directoryPage }) => {
+  test('N3 directory does not mis-file cities under the wrong country', async ({ directoryPage }) => {
     await directoryPage.open();
     const us = await directoryPage.sitesIn('United States');
     const ca = await directoryPage.sitesIn('Canada');

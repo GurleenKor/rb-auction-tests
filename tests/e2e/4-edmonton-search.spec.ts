@@ -18,11 +18,7 @@ test.describe('Scenario 4 — Edmonton inventory search', { tag: '@e2e' }, () =>
 
     const lots = await searchPage.firstPageLots();
     expect(lots.length).toBeGreaterThan(0);
-    // for (const lot of lots) {
-    //   expect(lot.title, 'lot title').not.toBe('');
-    //   if (lot.location !== null) expect(lot.location).not.toBe('');
-    //   if (lot.date !== null) expect(lot.date).not.toBe('');
-    // }
-    // log('displayed total', total);
+
+    log('displayed total', total);
   });
 });
