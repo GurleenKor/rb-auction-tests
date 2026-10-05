@@ -7,11 +7,18 @@ import type { Locator, Page, Response } from '@playwright/test';
 export abstract class BasePage {
   constructor(protected readonly page: Page) {}
 
-  protected async goto(path: string): Promise<Response | null> {
-    const response = await this.page.goto(path, { waitUntil: 'domcontentloaded' });
-    await this.dismissConsentIfPresent();
-    return response;
+ protected async goto(path: string): Promise<Response | null> {
+  const response = await this.page.goto(path, { waitUntil: 'domcontentloaded' });
+  const title = await this.page.title();
+  if (/access denied/i.test(title)) {
+    throw new Error(
+      `Blocked by bot protection at ${path} (HTTP ${response?.status()}). ` +
+        'Run with channel "chrome"/headed, or ask for this IP to be allow-listed.',
+    );
   }
+  await this.dismissConsentIfPresent();
+  return response;
+}
 
   /** Best-effort cookie banner dismissal; never fails the test. */
   protected async dismissConsentIfPresent(): Promise<void> {

@@ -36,7 +36,6 @@ export class SearchResultsPage extends BasePage {
 
   /** First-page lots. Location/date are optional on cards and returned as null when absent. */
   async firstPageLots(limit = 60): Promise<LotSummary[]> {
-    await this.lotCards.first().waitFor({ state: 'visible' });
     const n = Math.min(await this.lotCards.count(), limit);
     const lots: LotSummary[] = [];
     for (let i = 0; i < n; i++) {

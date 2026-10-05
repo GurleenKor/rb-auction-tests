@@ -12,7 +12,7 @@ test.describe('Scenario 1 — Locations directory', { tag: '@e2e' }, () => {
   });
 
   test('1.1 page title/heading and intro text', async ({ page, directoryPage }) => {
-    await expect(page).toHaveTitle(/locations|auction sites/i);
+    await expect(page).toHaveTitle("Our Auction Sites | Ritchie Bros. Auctioneers");
     await expect(directoryPage.heading).toBeVisible();
     await expect(directoryPage.introText).toBeVisible();
   });
